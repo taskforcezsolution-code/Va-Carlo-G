@@ -215,7 +215,7 @@ box-shadow:0 34px 44px -22px rgba(20,40,90,.42),0 14px 18px -10px rgba(20,40,90,
 <style id="vid-css">.tiles .pj:has(video){aspect-ratio:1/1;background:#000;display:block}.tiles .pj:has(video) .vid,.tiles .pj:has(video) video{width:100%;height:100%;object-fit:cover;border-radius:12px;background:#000}</style>
 
 <style id="intro-css">
-@font-face{font-family:"PlayfairEmb";font-weight:600;font-style:normal;font-display:block;src:url(assets/fonts/playfair-600.woff2) format("woff2")}
+@font-face{font-family:"PlayfairEmb";font-weight:600;font-style:normal;font-display:swap;src:url(assets/fonts/playfair-600.woff2) format("woff2")}
 #intro{--lw:clamp(210px,44vmin,400px);--pd:clamp(150px,32vmin,290px);position:fixed;inset:0;z-index:2147483000;background:#fff;color:#1D1D1F;-webkit-font-smoothing:antialiased;transition:background-color 1000ms ease;overflow:hidden}
 #intro *{box-sizing:border-box;margin:0;padding:0;border:0}
 #intro.go{background-color:rgba(255,255,255,0);pointer-events:none}
@@ -231,11 +231,11 @@ box-shadow:0 34px 44px -22px rgba(20,40,90,.42),0 14px 18px -10px rgba(20,40,90,
 #intro .mark .st,#intro .mark .sd{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
 #intro .mark .sd{stroke:#8B0A1A;stroke-width:13}
 #intro .mark .st{stroke:#FF2D4D;stroke-width:5;filter:drop-shadow(0 0 5px rgba(255,30,70,.95)) drop-shadow(0 0 14px rgba(255,0,50,.65))}
-#intro .scene.in .mark .fl{animation:ilf .9s ease 1.3s forwards}
-#intro .scene.in .mark .st{animation:ils 2.4s ease-in-out forwards,ilc 1s ease 2.2s forwards}
-#intro .scene.in .mark .sd{animation:ils 2.4s ease-in-out forwards,ilcd 1s ease 2.2s forwards}
+#intro .scene.in .mark .fl{animation:ilf .7s ease .9s forwards}
+#intro .scene.in .mark .st{animation:ils 1.6s ease-in-out forwards,ilc .8s ease 1.4s forwards}
+#intro .scene.in .mark .sd{animation:ils 1.6s ease-in-out forwards,ilcd .8s ease 1.4s forwards}
 #intro .wm{width:calc(var(--lw)*.9);height:auto;opacity:0;transform:translateY(8px)}
-#intro .scene.in .wm{animation:ilw .8s ease 2.4s forwards}
+#intro .scene.in .wm{animation:ilw .6s ease 1.5s forwards}
 @keyframes ils{0%{stroke-dashoffset:1}100%{stroke-dashoffset:0}}
 @keyframes ilc{0%{stroke:#FF2D4D;filter:drop-shadow(0 0 5px rgba(255,30,70,.95)) drop-shadow(0 0 14px rgba(255,0,50,.65))}100%{stroke:#32312F;filter:none}}
 @keyframes ilcd{0%{stroke:#8B0A1A}100%{stroke:#32312F}}
@@ -536,6 +536,12 @@ html.lite #tr{display:none}
 .mqr,.cb-sec,.card{content-visibility:auto;contain-intrinsic-size:auto 400px}
 .mh,.hero2,#view>.card:first-child{content-visibility:visible}
 @media (prefers-reduced-motion:reduce){#tr{display:none}}
+.btn,.menu{background:#c8102e}
+.btn:hover{filter:none;background:#a50d26}
+html:not(.dark){--mute:#4b5563}
+#side .soon{opacity:1;color:var(--mute)}#side .s{opacity:1}
+.dot{color:var(--mute)}
+.vfac{font:inherit;color:var(--mute);appearance:none;-webkit-appearance:none;padding:0}
 </style>
 </head>
 <body>
@@ -547,18 +553,18 @@ html.lite #tr{display:none}
 (()=>{const I=document.getElementById("intro"),H=document.documentElement;
 const done=()=>{I.remove();H.classList.remove("intro-on");document.querySelectorAll(".ia-fly").forEach(e=>e.remove())};
 if(!H.classList.contains("intro-on")){done();return}
-setTimeout(done,20000);I.addEventListener("click",done);   // click anywhere to skip
+setTimeout(done,13000);I.addEventListener("click",done);   // click anywhere to skip
 const $=q=>I.querySelector(q),scene=$(".scene"),flip=$(".flip"),pface=$(".pface"),ref=$(".ref"),tag=$(".tag"),stage=$(".stage");
 let ph="";
 const start=()=>{
  const av0=document.querySelector(".avatar");if(av0){const c=getComputedStyle(av0);ph=c.backgroundImage;if(ph&&ph!=="none"){pface.style.backgroundImage=ph;pface.style.backgroundSize=c.backgroundSize;pface.style.backgroundPosition=c.backgroundPosition}}
  requestAnimationFrame(()=>requestAnimationFrame(()=>scene.classList.add("in")));
- // logo stays 8 seconds, then flips to the profile picture
- setTimeout(()=>flip.classList.add("back"),8000);
+ // logo stays ~4 seconds, then flips to the profile picture
+ setTimeout(()=>flip.classList.add("back"),3800);
  // sentence slides out of the picture's right side
- setTimeout(()=>{const w=tag.parentElement.offsetWidth;stage.style.transform=`translateX(${-w/2}px)`;tag.classList.add("show")},9300);
+ setTimeout(()=>{const w=tag.parentElement.offsetWidth;stage.style.transform=`translateX(${-w/2}px)`;tag.classList.add("show")},5000);
  // sentence slides back into the picture
- setTimeout(()=>{tag.classList.remove("show");stage.style.transform="none"},15300);
+ setTimeout(()=>{tag.classList.remove("show");stage.style.transform="none"},8400);
  // 3 seconds later the picture settles into the dashboard avatar (same size, border, shadow and crop)
  setTimeout(()=>{
   const av=document.querySelector(".avatar"),T=av.getBoundingClientRect(),R=ref.getBoundingClientRect(),c=getComputedStyle(av);
@@ -570,7 +576,7 @@ const start=()=>{
                {left:T.left+"px",top:T.top+"px",width:T.width+"px",height:T.height+"px",borderWidth:bw,borderColor:bc,boxShadow:c.boxShadow}],
               {duration:1300,easing:"cubic-bezier(.65,0,.25,1)",fill:"forwards"});
   setTimeout(()=>H.classList.remove("intro-on"),1300);
- },18300);
+ },9500);
 };
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
@@ -579,7 +585,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <div id="tr" aria-hidden="true"></div>
 <button class="tg2" type="button" role="switch" aria-checked="false" aria-label="Dark theme"><span class="tgk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span></button>
 <header class="top"><a class="btn wt" href="#contact" data-cal>Let's Work Together!</a></header>
-<div class="avatar" aria-label="Profile photo placeholder">BC</div>
+<div class="avatar" role="img" aria-label="VA Carlo G. profile photo">BC</div>
 <button class="menu" id="menu" aria-label="Toggle menu">Menu</button>
 <nav id="side" aria-label="Main"></nav>
 <main id="view" tabindex="-1"></main>
@@ -635,19 +641,19 @@ const dots=(a,c="")=>`<div class="dots ${c}">${a.map(t=>`<div class="dot"><b>${T
 const skills=()=>SKILLS.map(([n,v],i)=>`<div class="pbr" style="--v:${v/100};--i:${i}"><span>${n}</span><div class="pbt" role="progressbar" aria-valuenow="${v}" aria-label="${n}"><i></i></div><b>${v}%</b></div>`).join("");
 const jobs=a=>a.map(j=>`<div class="job"><b>${j[0]}</b><span>${j[1]} | ${j[2]}</span><ul>${j[3].map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
 const contact=`<form id="cf"><input type="hidden" name="t" value=""><input name="n" placeholder="Your name" required aria-label="Your name"><input name="e" type="email" placeholder="Your email" required aria-label="Your email"><textarea name="m" rows="5" maxlength="1000" placeholder="How can we help?" required aria-label="Message"></textarea><small class="cc" aria-live="polite">0 / 1000</small><button class="btn" type="submit">Let's Work Together!</button><p class="done">Your email app should open with your message ready to send. If it doesn't, write to <a href="mailto:${EMAIL}">${EMAIL}</a>.</p></form>`;
-const eduLogo=o=>LOGO_IMG[o]?`<div class="lg c3"><img src="${LOGO_IMG[o]}" alt="${o} logo" loading="lazy" decoding="async"></div>`:"";
+const eduLogo=o=>LOGO_IMG[o]?`<div class="lg c3"><img src="${LOGO_IMG[o]}" alt="${o} logo" width="52" height="52" loading="lazy" decoding="async"></div>`:"";
 const eduRow=e=>`<div class="er">${eduLogo(e[1])}<div><b>${e[0]}</b>${e[1]?`<br><span style="color:var(--mute)">${[e[1],e[2]].filter(Boolean).join(" | ")}</span>`:""}</div></div>`;
 const eduList=()=>EDU.map(e=>`<div class="mini">${eduRow(e)}</div>`).join("");
 
 const slides=full=>`<div class="car ${full?"full":""}"><div class="hd"><h2>${ic("work")}Work Experience</h2><div class="ctl"><button data-d="-1" aria-label="Previous">&#8592;</button><button data-d="1" aria-label="Next">&#8594;</button></div></div><div class="trk" tabindex="0">${WORK.map(j=>`<article class="sl">${logo(j[1])}<b>${j[0]}</b><span>${j[1]}</span><span>${j[2]}</span>${full?`<ul>${j[3].map(x=>`<li>${x}</li>`).join("")}</ul>`:""}${j[4]?`<small class="note">${j[4]}</small>`:""}</article>`).join("")}</div></div>`;
 const LOGO_IMG={"F**BA": "assets/img/logo-client-1.jpg", "Marous Law": "assets/img/image-089.jpg", "Peak Profit": "assets/img/image-090.jpg", "Philippine Womens College": "assets/img/image-091.jpg", "Davao del Sur State College": "assets/img/image-092.jpg", "CARD MRI": "assets/img/image-093.jpg", "Tagum City College": "assets/img/image-094.jpg", "GV Appliance": "assets/img/image-095.jpg", "University of Mindanao": "assets/img/image-096.jpg", "University of Southeastern Philippines": "assets/img/image-097.jpg", "Turnkey Processing": "assets/img/image-098.jpg"}; // put your url link or embed code here (an image link), e.g. {"Company":"https://example.com/logo.png"}. Keys are matched against the company name.
-const logo=o=>{const ks=Object.keys(LOGO_IMG).filter(k=>o.includes(k));if(ks.length)return `<div class="lgs">${ks.map(k=>`<div class="lg c3"><img src="${LOGO_IMG[k]}" alt="${k} logo" loading="lazy" decoding="async"></div>`).join("")}</div>`;const n=o.split(",")[0].trim();let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;const w=n.split(" "),t=w.length>1?w[0][0]+w[1][0]:n.slice(0,2);return `<div class="lgs"><div class="lg c3" style="background:hsl(${h} 45% 36%)" role="img" aria-label="${n} logo"><span>${t.toUpperCase()}</span></div></div>`};
+const logo=o=>{const ks=Object.keys(LOGO_IMG).filter(k=>o.includes(k));if(ks.length)return `<div class="lgs">${ks.map(k=>`<div class="lg c3"><img src="${LOGO_IMG[k]}" alt="${k} logo" width="56" height="56" loading="lazy" decoding="async"></div>`).join("")}</div>`;const n=o.split(",")[0].trim();let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;const w=n.split(" "),t=w.length>1?w[0][0]+w[1][0]:n.slice(0,2);return `<div class="lgs"><div class="lg c3" style="background:hsl(${h} 45% 36%)" role="img" aria-label="${n} logo"><span>${t.toUpperCase()}</span></div></div>`};
 const IC={dash:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',edu:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9v6"/>',work:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M3 13h18"/>',svc:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',biz:'<rect x="4" y="3" width="10" height="18" rx="1"/><path d="M14 9h6v12h-6"/><path d="M8 7h2M8 11h2M8 15h2"/>',dl:'<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/>',video:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/>',skill:'<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',plat:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',ai:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',post:'<path d="M5 3h10l4 4v14H5z"/><path d="M14 3v5h5M8 13h8M8 17h6"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'};
 const ic=n=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 const chunk=(a,n)=>Array.from({length:Math.ceil(a.length/n)},(_,i)=>a.slice(i*n,i*n+n));
 const tools=(t,a,c)=>{const p=chunk(a,8);return `<div class="car"><div class="hd"><h2>${ic(t=="AI Tools"?"ai":"plat")}${t}</h2><div class="ctl"><span class="cnt">1/${p.length}</span><button data-d="-1" aria-label="Previous ${t}">&#8592;</button><button data-d="1" aria-label="Next ${t}">&#8594;</button></div></div><div class="pg">${p.map(g=>dots(g,c)).join("")}</div></div>`};
 const embed=u=>{let m;if(/^\s*</.test(u))return `<div class="vid emb">${u}</div>`;if(m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))return `<iframe class="vid" src="https://www.youtube.com/embed/${m[1]}" title="Welcome video" allow="fullscreen;picture-in-picture" allowfullscreen></iframe>`;if(m=u.match(/vimeo\.com\/(\d+)/))return `<iframe class="vid" src="https://player.vimeo.com/video/${m[1]}" title="Welcome video" allow="fullscreen;picture-in-picture" allowfullscreen></iframe>`;return `<video class="vid" src="${u}" controls playsinline></video>`};
-const vid=t=>`<section class="card"><h2>${ic("video")}${t}</h2>${VIDEO_URL?embed(VIDEO_URL):`<div class="vid vph"><div class="play">&#9654;</div><p>Welcome video coming soon</p></div>`}</section>`;
+const vid=t=>`<section class="card"><h2>${ic("video")}${t}</h2>${VIDEO_URL?`<button type="button" class="vid vph vfac" data-vid aria-label="Play welcome video"><span class="play">&#9654;</span><p>Watch the welcome video</p></button>`:`<div class="vid vph"><div class="play">&#9654;</div><p>Welcome video coming soon</p></div>`}</section>`;
 const media=u=>/^\s*</.test(u)||/youtu|vimeo|\.(mp4|webm)(\?|$)/i.test(u)?embed(u):`<img src="${u}" alt="Project" loading="lazy">`;
 const proj=(u,i)=>u?`<div class="ph pj">${media(u)}</div>`:`<div class="ph">Project ${i+1}: add image</div>`;
 function countUp(el){const v=+el.dataset.v;let s=null;const f=t=>{s=s??t;const p=Math.min((t-s)/1100,1);el.textContent=Math.round(v*p)+"%";if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
@@ -664,7 +670,7 @@ const post=i=>{const b=BLOGS[+i];if(!b)return V.blog();return `<a href="#blog" s
 const V={blog:()=>`<h1>Blog</h1><div class="tiles">${BLOGS.map(blogBox).join("")}</div>`,
 dashboard:()=>`<div class="hero2"><p class="eb">Your knowledge deserves a bigger stage</p><h1>Turn your expertise<br>into <span class="rslot"><b class="rw">online courses</b><b class="rw">websites</b><b class="rw">sales funnels</b><b class="rw">eBooks</b><b class="rw">AI videos</b><b class="rw">social content</b></span></h1><p class="sub3">Great ideas shouldn't stay stuck in your head. Let's shape what you know into something people can find, trust and happily pay for.</p></div><div class="grid"><div class="col">${vid("Meet VA Carlo G.")}<section class="card"><h2>${ic("skill")}Skills & Expertise</h2>${skills()}</section></div>
 <div class="col"><section class="card"><h2>${ic("user")}About Me</h2><p style="margin:0 0 10px;font-size:14px">${ABOUT[0]}</p><a href="#about">Read more</a></section><section class="card"><h2>${ic("edu")}Education</h2>${eduList()}</section></div></div><section class="card" style="margin-top:18px">${mq("Platforms",PLATFORMS,"plat")}</section><section class="card" style="margin-top:18px">${mq("AI Tools",AI,"ai")}</section><section class="card" style="margin-top:18px">${slides(false)}</section>`,
-about:()=>`<h1>About me</h1><div class="abt">${PHOTO?`<img class="pf" src="${PHOTO}" alt="VA Carlo G.">`:"<div class='pf'></div>"}<div class="col">${vid("Meet VA Carlo G.")}<section class="card">${ABOUT.map(p=>`<p style="margin:0 0 16px">${p}</p>`).join("")}</section></div></div>`,
+about:()=>`<h1>About me</h1><div class="abt">${PHOTO?`<img class="pf" src="${PHOTO}" alt="VA Carlo G." width="200" height="200" decoding="async">`:"<div class='pf'></div>"}<div class="col">${vid("Meet VA Carlo G.")}<section class="card">${ABOUT.map(p=>`<p style="margin:0 0 16px">${p}</p>`).join("")}</section></div></div>`,
 education:()=>`<h1>Education</h1><div class="col" style="max-width:720px">${EDU.map(e=>`<section class="card">${eduRow(e)}</section>`).join("")}<section class="card"><h2>Licenses & Certifications</h2><ul style="margin:0;padding-left:18px">${CERTS.map(c=>`<li>${c}</li>`).join("")}</ul></section></div>`,
 work:()=>`<h1>Work Experience</h1><section class="card">${slides(true)}</section>`,
 platforms:()=>`<h1>Platforms & Tools</h1><section class="card">${dots(PLATFORMS,"d3")}</section>`,
@@ -789,6 +795,7 @@ if(t){const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria
 $("#menu").onclick=()=>side.classList.toggle("open");
 view.addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){const t=b.closest(".car").querySelector(".trk,.pg"),s=t.classList.contains("pg")?t.clientWidth:t.querySelector(".sl").offsetWidth+14;t.scrollBy({left:b.dataset.d*s,behavior:"smooth"});return}
 const k=e.target.closest(".sk");if(k){const i=k.querySelector("i");i.style.animation="none";i.offsetWidth;i.style.animation="";countUp(k.querySelector("em"))}});
+view.addEventListener("click",e=>{const v=e.target.closest("[data-vid]");if(v)v.outerHTML=embed(VIDEO_URL.replace("videoFoam=true","videoFoam=true&autoPlay=true"))});
 view.addEventListener("click",e=>{const ch=e.target.closest(".chip");if(!ch)return;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));ch.classList.add("on");$("#cf").elements.t.value=ch.dataset.topic});
 view.addEventListener("input",e=>{if(e.target.name=="m"){const c=e.target.form.querySelector(".cc");if(c)c.textContent=e.target.value.length+" / 1000"}});
 view.addEventListener("scroll",e=>{const t=e.target;if(t.classList&&t.classList.contains("pg")){const c=t.closest(".car").querySelector(".cnt");if(c)c.textContent=(Math.round(t.scrollLeft/t.clientWidth)+1)+"/"+t.children.length}},true);
@@ -881,7 +888,7 @@ const CH='<svg class="ch" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 
 const st={x:0,y:0,tx:0,ty:0,real:false,over:false},sp={x:0,y:0,vx:0,vy:0,s:1};
 addEventListener("pointermove",e=>{st.tx=e.clientX;st.ty=e.clientY;st.over=!!(e.target.closest&&e.target.closest("a,button,[data-cal],.fc,.chip,.sk,input,textarea"));if(!st.real){st.real=true;st.x=sp.x=st.tx;st.y=sp.y=st.ty;document.body.classList.add("sf-on")}});
 document.documentElement.addEventListener("mouseleave",()=>document.body.classList.remove("sf-on"));document.documentElement.addEventListener("mouseenter",()=>st.real&&document.body.classList.add("sf-on"));
-(function loop(){requestAnimationFrame(loop);st.x=st.tx;st.y=st.ty;sp.vx+=(st.x-sp.x)*.1;sp.vy+=(st.y-sp.y)*.1;sp.vx*=.78;sp.vy*=.78;sp.x+=sp.vx;sp.y+=sp.vy;sp.s+=((st.over?1.7:1)-sp.s)*.18;ring.classList.toggle("big",st.over);
+(function loop(){requestAnimationFrame(loop);if(!st.real)return;st.x=st.tx;st.y=st.ty;sp.vx+=(st.x-sp.x)*.1;sp.vy+=(st.y-sp.y)*.1;sp.vx*=.78;sp.vy*=.78;sp.x+=sp.vx;sp.y+=sp.vy;sp.s+=((st.over?1.7:1)-sp.s)*.18;ring.classList.toggle("big",st.over);
 ring.style.transform=`translate(${sp.x.toFixed(1)}px,${sp.y.toFixed(1)}px) scale(${sp.s.toFixed(3)})`;dot.style.transform=`translate(${st.x.toFixed(1)}px,${st.y.toFixed(1)}px)`})()})();
 const cm=$("#calmodal");
 function openCal(){const f=cm.querySelector("iframe");if(!f.getAttribute("src"))f.src=CALENDLY+"?hide_gdpr_banner=1";$("#calnew").href=CALENDLY;cm.hidden=false;document.body.style.overflow="hidden";cm.querySelector(".mx").focus()}
@@ -899,8 +906,8 @@ addEventListener("hashchange",route);route();
 <script type="module">
 (async()=>{
 const H=document.documentElement;if(H.classList.contains('lite')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-await new Promise(r=>addEventListener('load',()=>(window.requestIdleCallback||setTimeout)(r,{timeout:4000}),{once:true}));
-if(document.readyState!=='complete')await new Promise(r=>addEventListener('load',r,{once:true}));
+try{const tc=document.createElement('canvas'),g=tc.getContext('webgl'),x=g&&g.getExtension('WEBGL_debug_renderer_info'),rn=x?String(g.getParameter(x.UNMASKED_RENDERER_WEBGL)):'';if(!g||/swiftshader|llvmpipe|software|basic render/i.test(rn))return}catch(e){return}
+await new Promise(r=>{const go=()=>{['pointermove','scroll','touchstart','keydown'].forEach(t=>removeEventListener(t,go));(window.requestIdleCallback||setTimeout)(r,{timeout:1500})};['pointermove','scroll','touchstart','keydown'].forEach(t=>addEventListener(t,go,{once:true,passive:true}))});
 const THREE=await import('three');const {SimplexNoise}=await import('three/addons/math/SimplexNoise.js');
 // Point terrain background (ported from the pasted code)
 const host=document.getElementById('tr');
@@ -909,10 +916,10 @@ const VS='attribute vec3 aCol;attribute float aSize;attribute float aAlpha;unifo
 const FS='uniform float uCore;uniform float uGain;varying vec3 vC;varying float vA;void main(){float d=length(gl_PointCoord-0.5)*2.0;if(d>1.0)discard;float a=1.0-smoothstep(uCore,1.0,d);gl_FragColor=vec4(vC,a*vA*uGain);}';
 const R=new THREE.WebGLRenderer({antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,1.5));host.appendChild(R.domElement);
 const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,200);cam.position.set(0,2.6,6.4);cam.lookAt(0,.1,-2.6);
-const GX=104,GZ=70,N=GX*GZ,geo=new THREE.BufferGeometry();
+const GX=64,GZ=44,N=GX*GZ,geo=new THREE.BufferGeometry();
 const mk=(k,f)=>{const a=new THREE.BufferAttribute(new Float32Array(N*k).fill(f),k);a.setUsage(THREE.DynamicDrawUsage);return a};
 const pos=mk(3,0),col=mk(3,1),siz=mk(1,1),alp=mk(1,1);geo.setAttribute('position',pos);geo.setAttribute('aCol',col);geo.setAttribute('aSize',siz);geo.setAttribute('aAlpha',alp);
-const mat=new THREE.ShaderMaterial({uniforms:{uSize:{value:.052},uScale:{value:300},uNear:{value:5},uFar:{value:19},uFade:{value:.9},uCore:{value:.4},uGain:{value:1}},vertexShader:VS,fragmentShader:FS,transparent:true,depthWrite:false,depthTest:false});
+const mat=new THREE.ShaderMaterial({uniforms:{uSize:{value:.078},uScale:{value:300},uNear:{value:5},uFar:{value:19},uFade:{value:.9},uCore:{value:.4},uGain:{value:1}},vertexShader:VS,fragmentShader:FS,transparent:true,depthWrite:false,depthTest:false});
 const pts=new THREE.Points(geo,mat);pts.frustumCulled=false;sc.add(pts);
 function size(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();mat.uniforms.uScale.value=R.domElement.height/(2*Math.tan(cam.fov*Math.PI/360))}
 size();addEventListener('resize',size);
@@ -924,12 +931,13 @@ const rc=new THREE.Raycaster(),pl=new THREE.Plane(new THREE.Vector3(0,1,0),0),hi
 let tx=0,ty=0,bx=0,bz=-1.5;addEventListener('pointermove',e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5});
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;let drawn=false;const t0=performance.now();
 const pa=pos.array,ca=col.array,sa=siz.array,aa=alp.array;
-function frame(now){requestAnimationFrame(frame);if(document.hidden||(still&&drawn))return;drawn=true;const t=(now-t0)/1000;
+let last=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||(still&&drawn)||now-last<33)return;last=now;drawn=true;const t=(now-t0)/1000;
 cam.updateMatrixWorld();ndc.set(tx*2,-ty*2);rc.setFromCamera(ndc,cam);const h0=rc.ray.intersectPlane(pl,hit);const gx=h0?h0.x:bx,gz=h0?h0.z:bz;bx+=(gx-bx)*.12;bz+=(gz-bz)*.12;
 for(let i=0;i<N;i++){const x=GXs[i],z=GZs[i];const h=.3*Math.sin(x*.75+t)*Math.cos(z*.62-t*.7)+.2*ns.noise3d(x*.32,z*.32,t*.22)+.07*Math.sin((x+z)*1.5-t*1.4);
 const dx=x-bx,dz=z-bz,d2=dx*dx+dz*dz,bump=Math.exp(-d2/.9)*.95+Math.sin(Math.sqrt(d2)*5-t*4.5)*Math.exp(-d2/3)*.07,y=h+bump,tt=clamp((y+.35)/1.4,0,1);
 const c=tt<.5?mix3(pale,blue,tt*2):mix3(blue,ink,(tt-.5)*2),i3=i*3;pa[i3]=x;pa[i3+1]=y;pa[i3+2]=z;ca[i3]=c[0];ca[i3+1]=c[1];ca[i3+2]=c[2];sa[i]=.75+tt;aa[i]=.5+tt*.45}
-pos.needsUpdate=col.needsUpdate=siz.needsUpdate=alp.needsUpdate=true;R.render(sc,cam)}
+pos.needsUpdate=col.needsUpdate=siz.needsUpdate=alp.needsUpdate=true;R.render(sc,cam);if(!host.dataset.on){host.dataset.on=1;host.style.opacity=1}}
+host.style.opacity=0;host.style.transition='opacity 1.2s ease';
 requestAnimationFrame(frame);
 }catch(e){console.warn('Terrain background unavailable',e)}}
 })();
