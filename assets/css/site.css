@@ -511,3 +511,5 @@ html:not(.dark){--mute:#4b5563}
 .vfac{font:inherit;color:var(--mute);appearance:none;-webkit-appearance:none;padding:0}
 
 html:not(.intro-on) #intro{display:none}
+/* keep the dark closing banner (CTA) intact in lite and dark modes */
+html .card.cb-close,html.lite .card.cb-close,html.dark .card.cb-close,html.lite.dark .card.cb-close{border:0;background:radial-gradient(70% 90% at 90% 0%,rgba(255,45,45,.5),transparent 60%),linear-gradient(145deg,#1b1a17,#32090f 65%,#5e0c18);box-shadow:0 30px 60px -30px rgba(94,12,24,.7);color:#fff}
