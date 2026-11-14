@@ -184,7 +184,7 @@ const sv=h=="services"||h.startsWith("svc-");
 const a=(id,t)=>`<a class="m ${h==id?"on":""}" href="${id=="about"?"/about.html":"#"+id}">${ic({dashboard:"dash",about:"user",education:"edu",work:"work",blog:"post",contact:"mail"}[id])}${t}</a>`;
 side.innerHTML=`${nameHTML()}<div class="soc">${socHTML()}</div>`+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
 `<button class="m" data-t="s" aria-expanded="${sv}">${ic("svc")}Services${CH}</button><div class="sub ${sv?"open":""}" id="s">${SERVICES.map(([k,n])=>`<a class="s ${h=="svc-"+k?"on":""}" href="/services/${SLUGS[k]}.html">${n}</a>`).join("")}</div>`+
-`<button class="m" data-t="b" aria-expanded="true">${ic("biz")}My Business${CH}</button><div class="sub open" id="b"><a class="s" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">TaskForce Z Solution</a><span class="soon" style="display:block">Outsourcing Agency (Coming Soon)</span><span class="soon" style="display:block">Accounting Services (Coming Soon)</span></div>`+
+`<button class="m" data-t="b" aria-expanded="${h=="dashboard"}">${ic("biz")}My Business${CH}</button><div class="sub ${h=="dashboard"?"open":""}" id="b"><a class="s" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">TaskForce Z Solution</a><span class="soon" style="display:block">Outsourcing Agency (Coming Soon)</span><span class="soon" style="display:block">Accounting Services (Coming Soon)</span></div>`+
 a("blog","Blog")+a("contact","FAQs/Contact")}
 function route(){
 const hh=location.hash.slice(1),pg=document.body.dataset.page||"";
@@ -230,9 +230,9 @@ const seg=(a,b)=>{const av=(a.p+b.p)/2,k=av*av*(3-2*av);ctx.beginPath();ctx.move
 for(let r=0;r<rows;r++)for(let c=0;c<cols-1;c++)seg(P[r][c],P[r][c+1]);
 for(let c=0;c<cols;c++)for(let r=0;r<rows-1;r++)seg(P[r][c],P[r+1][c]);
 for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const p=P[r][c],k=p.p*p.p*(3-2*p.p),rad=lerp(NB,NA,k);
-if(k>.3){const gr=rad+lerp(0,6,(k-.3)/.7),g=ctx.createRadialGradient(p.x,p.y,rad*.5,p.x,p.y,gr);g.addColorStop(0,`rgba(139,0,0,${(k*.3).toFixed(3)})`);g.addColorStop(1,"rgba(139,0,0,0)");ctx.beginPath();ctx.arc(p.x,p.y,gr,0,6.2832);ctx.fillStyle=g;ctx.fill()}
+if(k>.3){const gr=rad+lerp(0,6,(k-.3)/.7),g=ctx.createRadialGradient(p.x,p.y,rad*.5,p.x,p.y,gr);g.addColorStop(0,`rgba(111,78,55,${(k*.3).toFixed(3)})`);g.addColorStop(1,"rgba(111,78,55,0)");ctx.beginPath();ctx.arc(p.x,p.y,gr,0,6.2832);ctx.fillStyle=g;ctx.fill()}
 ctx.beginPath();ctx.arc(p.x,p.y,rad,0,6.2832);ctx.fillStyle=col(NBASE,NACT,k);ctx.fill()}
-for(const q of rip){ctx.beginPath();ctx.arc(q.x,q.y,Math.max(0,q.radius),0,6.2832);ctx.strokeStyle=`rgba(139,0,0,${(q.opacity*.28).toFixed(3)})`;ctx.lineWidth=1.5;ctx.stroke()}}
+for(const q of rip){ctx.beginPath();ctx.arc(q.x,q.y,Math.max(0,q.radius),0,6.2832);ctx.strokeStyle=`rgba(111,78,55,${(q.opacity*.28).toFixed(3)})`;ctx.lineWidth=1.5;ctx.stroke()}}
 function loop(now){m.x=lerp(m.x,t.x,LERP);m.y=lerp(m.y,t.y,LERP);
 if(dirty||rip.length||Math.abs(m.x-t.x)>.4||Math.abs(m.y-t.y)>.4){draw(now);dirty=false}requestAnimationFrame(loop)}
 size();addEventListener("resize",size);
@@ -264,7 +264,7 @@ window.__fanR=()=>{if($("#fan")===root){dims();place(0,false)}};dims();place(0,t
 addEventListener("resize",()=>window.__fanR&&window.__fanR());
 const BADGE='<svg class="vb" viewBox="0 0 24 24" role="img" aria-label="Verified"><path fill="#0A6CFF" d="M12 1.5l2.3 1.7 2.8-.2 1 2.6 2.4 1.5-.7 2.7 1 2.6-2 2 .1 2.8-2.7.9-1.6 2.3-2.6-1-2.6 1-1.6-2.3-2.7-.9.1-2.8-2-2 1-2.6-.7-2.7 2.4-1.5 1-2.6 2.8.2z"/><path d="M8 12.2l2.6 2.6L16 9.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const nameHTML=()=>`<div class="nm"><span class="nmt">${[..."VA Carlo G."].map(c=>`<span>${c==" "?"&nbsp;":c}</span>`).join("")}</span>${BADGE}</div>`;
-const hw=(e)=>{const nm=side.querySelector(".nmt");if(!nm)return;const r=nm.getBoundingClientRect(),over=e&&e.clientY>r.top-14&&e.clientY<r.bottom+14&&e.clientX>r.left-20&&e.clientX<r.right+20;[...nm.children].forEach(s=>{if(!over){s.style.fontWeight="";s.style.color="";return}const b=s.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-e.clientX)/(r.width*.2),w=300+450*Math.exp(-d*d);s.style.fontWeight=String(Math.round(w/10)*10);s.style.color=d<.7?"#8b0000":""})};
+const hw=(e)=>{const nm=side.querySelector(".nmt");if(!nm)return;const r=nm.getBoundingClientRect(),over=e&&e.clientY>r.top-14&&e.clientY<r.bottom+14&&e.clientX>r.left-20&&e.clientX<r.right+20;[...nm.children].forEach(s=>{if(!over){s.style.fontWeight="";s.style.color="";return}const b=s.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-e.clientX)/(r.width*.2),w=300+450*Math.exp(-d*d);s.style.fontWeight=String(Math.round(w/10)*10);s.style.color=d<.7?"#6f4e37":""})};
 side.addEventListener("pointermove",hw);side.addEventListener("pointerleave",()=>hw(null));
 let rollT;function initRoll(){clearInterval(rollT);const s=$(".rslot");if(!s)return;const ws=[...s.querySelectorAll(".rw")];let i=0;const fit=()=>{s.style.width=ws[i].offsetWidth+"px"};ws[0].classList.add("on");fit();if(document.fonts)document.fonts.ready.then(fit);if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
 rollT=setInterval(()=>{if(!s.isConnected){clearInterval(rollT);return}const cur=ws[i];i=(i+1)%ws.length;const nx=ws[i];ws.forEach(w=>{if(w!==cur&&w!==nx){w.style.transition="none";w.classList.remove("out")}});void s.offsetWidth;ws.forEach(w=>w.style.transition="");cur.classList.remove("on");cur.classList.add("out");nx.classList.remove("out");nx.classList.add("on");fit()},2200)}
