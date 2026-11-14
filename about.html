@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <script>(function(){var d=document.documentElement,c=navigator.connection||{},w=innerWidth<900||matchMedia("(pointer:coarse)").matches,low=c.saveData||/(^|-)2g$/.test(c.effectiveType||"")||(navigator.deviceMemory&&navigator.deviceMemory<=4)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4);
 if(w||low)d.classList.add("lite");
-var home=/(^\/$)|(\/index\.html$)/.test(location.pathname),seen=false;try{seen=sessionStorage.getItem("intro_seen")==="1";if(home)sessionStorage.setItem("intro_seen","1")}catch(e){}
+var home=d.hasAttribute("data-home"),seen=false;try{seen=sessionStorage.getItem("intro_seen")==="1";if(home)sessionStorage.setItem("intro_seen","1")}catch(e){}
 if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!seen&&home)d.classList.add("intro-on")})()</script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
 </head>
