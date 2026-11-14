@@ -12,8 +12,8 @@ const R=new THREE.WebGLRenderer({antialias:false,alpha:true,powerPreference:'low
 R.setPixelRatio(1);host.appendChild(R.domElement);
 const scene=new THREE.Scene(),taps=[];for(let i=0;i<MAXT;i++)taps.push(new THREE.Vector3(.5,.5,-99));
 let ti=0,lastTap=-9,lx=.5,ly=.5;
-const PAL={light:{c3:[.957,.918,.867],c2:[.863,.769,.651],c1:[.718,.553,.380],c4:[.98,.95,.91],spec:.2,h:.1},
-           dark:{c3:[.20,.14,.10],c2:[.16,.11,.075],c1:[.43,.31,.22],c4:[.25,.18,.13],spec:.1,h:.07}};
+const PAL={light:{c3:[1,1,.773],c2:[.957,.835,.608],c1:[.808,.612,.373],c4:[1,1,.9],spec:.18,h:.1},
+           dark:{c3:[.227,.176,.141],c2:[.165,.125,.098],c1:[.533,.365,.212],c4:[.29,.227,.184],spec:.1,h:.07}};
 const U={uTime:{value:0},uRes:{value:new THREE.Vector2(1,1)},uR:{value:taps},uC1:{value:new THREE.Vector3()},uC2:{value:new THREE.Vector3()},uC3:{value:new THREE.Vector3()},uC4:{value:new THREE.Vector3()},uSpec:{value:.2},uH:{value:.1}};
 const VERT='varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.0,1.0);}';
 const FRAG=`varying vec2 vUv;uniform float uTime;uniform vec2 uRes;uniform vec3 uR[${MAXT}];uniform vec3 uC1,uC2,uC3,uC4;uniform float uSpec,uH;
