@@ -592,3 +592,6 @@ html .card.cb-close,html.lite .card.cb-close,html.dark .card.cb-close,html.lite.
 .vfac .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 html.dark .vfac{background:linear-gradient(135deg,#4A3A2F 0%,#5f452f 55%,#885D36 100%);color:#ffffc5}
 html.dark .vf-txt b{color:#ffffc5}html.dark .vf-txt i{color:#F4D59B}html.dark .vf-txt small{color:#EDBB70}html.dark .vf-pill{background:#EDBB70;color:#4A3A2F}
+
+/* sidebar never scrolls: its contents are scaled to fit the screen height */
+@media (min-width:901px){#side{overflow:hidden!important;overflow-y:hidden!important}#side .sin{display:block;transform-origin:top left}}
