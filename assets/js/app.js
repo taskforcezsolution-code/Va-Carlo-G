@@ -183,23 +183,27 @@ return `<a href="#services" style="color:var(--mute);text-decoration:none">&larr
 function nav(h){
 const sv=h=="services"||h.startsWith("svc-");
 const a=(id,t)=>`<a class="m ${h==id?"on":""}" href="${id=="about"?"about.html":"#"+id}">${ic({dashboard:"dash",about:"user",education:"edu",work:"work",blog:"post",contact:"mail"}[id])}${t}</a>`;
-side.innerHTML=`${nameHTML()}<div class="soc">${socHTML()}</div>`+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
+side.innerHTML='<div class="sin">'+`${nameHTML()}<div class="soc">${socHTML()}</div>`+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
 `<button class="m" data-t="s" aria-expanded="${sv}">${ic("svc")}Services${CH}</button><div class="sub ${sv?"open":""}" id="s">${SERVICES.map(([k,n])=>`<a class="s ${h=="svc-"+k?"on":""}" href="services/${SLUGS[k]}.html">${n}</a>`).join("")}</div>`+
 `<button class="m" data-t="b" aria-expanded="${h=="dashboard"}">${ic("biz")}My Business${CH}</button><div class="sub ${h=="dashboard"?"open":""}" id="b"><a class="s" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">TaskForce Z Solution</a><span class="soon" style="display:block">Outsourcing Agency (Coming Soon)</span><span class="soon" style="display:block">Accounting Services (Coming Soon)</span></div>`+
-a("blog","Blog")+a("contact","FAQs/Contact")}
+a("blog","Blog")+a("contact","FAQs/Contact")+'</div>'}
+function fitSide(){const s=$("#side"),sin=s&&s.querySelector(".sin");if(!sin)return;sin.style.zoom="";if(innerWidth<=900)return;
+ const cs=getComputedStyle(s),avail=s.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),need=sin.scrollHeight+12;
+ if(need>avail)sin.style.zoom=Math.max(.45,avail/need).toFixed(3)}
+addEventListener("resize",fitSide);
 function route(){
 const hh=location.hash.slice(1),pg=document.body.dataset.page||"";
 if(hh&&hh!==pg){const to=hh=="about"?"about.html":(hh.startsWith("svc-")&&SLUGS[hh.slice(4)])?"services/"+SLUGS[hh.slice(4)]+".html":"";if(to){const dest=new URL(to,document.baseURI).pathname;if(location.pathname!==dest){location.replace(dest);return}}}
 const h=hh||pg||"dashboard";
 view.innerHTML=h.startsWith("post-")?post(h.slice(5)):h.startsWith("svc-")?svc(h.slice(4)):(V[h]||V.dashboard)();
-nav(h);window.__tg=window.__tg||document.querySelector(".tg2");side.querySelector(".soc").appendChild(window.__tg);side.classList.remove("open");window.scrollTo(0,0);document.querySelectorAll(".sk em").forEach(countUp);initFan();initFaq();initFlow();initRoll();initGallery(h);enhanceSvc(h);if(h=="dashboard")bento();
+nav(h);window.__tg=window.__tg||document.querySelector(".tg2");side.querySelector(".soc").appendChild(window.__tg);side.classList.remove("open");window.scrollTo(0,0);document.querySelectorAll(".sk em").forEach(countUp);initFan();initFaq();initFlow();initRoll();initGallery(h);enhanceSvc(h);fitSide();setTimeout(fitSide,300);if(h=="dashboard")bento();
 const f=$("#cf");if(f)f.onsubmit=e=>{e.preventDefault();const d=new FormData(f);
 const sv=(SERVICES.find(s=>"svc-"+s[0]==h)||[])[1],sub=(sv?sv+" inquiry":(d.get("t")||"Portfolio")+" inquiry")+" from "+d.get("n"),body=d.get("m")+"\n\n"+d.get("n")+" ("+d.get("e")+")";
 const mail=()=>{location.href=`mailto:${EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`};
 f.querySelector("button").textContent=FORM_ENDPOINT?"Sending...":"Opening your email app...";if(!FORM_ENDPOINT){mail();f.classList.add("sent");return}
 fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({name:d.get("n"),email:d.get("e"),message:d.get("m"),subject:sub})}).then(r=>{if(!r.ok)throw 0;f.innerHTML="<p><b>Message sent.</b> We'll reply to "+d.get("e")+" soon.</p>"}).catch(mail)}}
 side.addEventListener("click",e=>{const t=e.target.closest("[data-t]");
-if(t){const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria-expanded",s.classList.contains("open"))}
+if(t){const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria-expanded",s.classList.contains("open"));fitSide();setTimeout(fitSide,700)}
 });
 $("#menu").onclick=()=>side.classList.toggle("open");
 view.addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){const t=b.closest(".car").querySelector(".trk,.pg"),s=t.classList.contains("pg")?t.clientWidth:t.querySelector(".sl").offsetWidth+14;t.scrollBy({left:b.dataset.d*s,behavior:"smooth"});return}
