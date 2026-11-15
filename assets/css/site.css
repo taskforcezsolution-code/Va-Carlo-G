@@ -612,3 +612,49 @@ html.dark .vf-txt b{color:#ffffc5}html.dark .vf-txt i{color:#F4D59B}html.dark .v
 @media (max-width:900px){#side .sin{height:auto}#side .sm{overflow:visible}}
 
 @media (min-width:901px){#side .sm.more{-webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent)}}
+
+/* ===== Premium flyout submenu + compact sidebar header ===== */
+:root{--fspring:cubic-bezier(.22,1,.36,1)}
+@supports (transition-timing-function:linear(0,1)){:root{--fspring:linear(0,.0941 5.6%,.2736 11.1%,.4548 16.7%,.6076 22.2%,.7255 27.8%,.8119 33.3%,.8732 38.9%,.9156 44.4%,.9444 50%,.9636 55.6%,.9764 61.1%,.9848 66.7%,.9902 72.2%,.9938 77.8%,.996 83.3%,.9975 88.9%,.9984 94.4%,1 100%)}}
+html.fly #side .sub{display:none!important}
+html.fly #side button[data-t] .ch{transform:none!important}
+#side button.m.on{color:#885D36;font-weight:600;background:#fff;box-shadow:0 0 0 1px rgba(206,156,95,.5),0 1px 2px rgba(74,58,47,.08)}
+#side button.m.hov{background:linear-gradient(145deg,rgba(255,255,255,.95),rgba(255,255,255,.6));box-shadow:0 8px 20px -10px rgba(136,93,54,.45),inset 0 1px 0 #fff}
+html.dark #side button.m.on{background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.08));color:#EDBB70}
+html.dark #side button.m.hov{background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.07))}
+.fxo{position:fixed;left:0;top:0;width:min(20rem,calc(100vw - 290px));z-index:80;pointer-events:none;transform:translate(var(--x,0px),var(--y,0px));transition:transform .587s var(--fspring);will-change:transform}
+.fxo.snap{transition:none}
+.fxo::before{content:"";position:absolute;right:100%;top:0;bottom:0;width:22px}
+.fxo.open{pointer-events:auto}
+.fxo .fxc{padding:8px;border-radius:18px;background:#ffffe6;box-shadow:0 0 0 1px rgba(206,156,95,.55),0 4px 8px rgba(74,58,47,.1),0 26px 50px -18px rgba(74,58,47,.42);opacity:0;transform:translateX(-12px) scale(.95);transform-origin:0 26px;transition:opacity .15s ease,transform .2s ease}
+.fxo.open .fxc{opacity:1;transform:none;transition:opacity .2s ease,transform .587s var(--fspring)}
+.fxo .fxp{display:none;gap:2px}
+.fxo .fxp.on{display:grid;animation:fpin .24s ease}
+@keyframes fpin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.fxo .fxl{margin:0;padding:8px 12px 6px;font:650 11px/1 "Geist",system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#A76939}
+.fxo .fxi{display:flex;align-items:center;gap:10px;min-height:38px;padding:8px 12px;border-radius:11px;font:550 15px/1.25 "Geist",system-ui,sans-serif;color:#4A3A2F;text-decoration:none;transition:background-color .15s ease,color .15s ease}
+.fxo .fxi svg{flex:none;width:15px;height:15px;color:#A76939;transition:transform .3s var(--fspring),color .15s ease}
+.fxo a.fxi:hover,.fxo a.fxi:focus-visible{background:#F4D59B;color:#4A3A2F;outline:none}
+.fxo a.fxi:hover svg,.fxo a.fxi:focus-visible svg{transform:translateX(3px);color:#885D36}
+.fxo a.fxi:focus-visible{box-shadow:inset 0 0 0 2px #885D36}
+.fxo .fxi.on{background:rgba(136,93,54,.14);color:#885D36;font-weight:650}
+.fxo .fxi.off{opacity:.75;cursor:default}
+.fxo .fxi.off em{margin-left:auto;padding:4px 8px;border-radius:999px;background:rgba(206,156,95,.28);color:#885D36;font:600 10.5px/1 "Geist",system-ui,sans-serif;font-style:normal;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+html.dark .fxo .fxc{background:#3a2d24;box-shadow:0 0 0 1px rgba(237,187,112,.28),0 26px 50px -18px rgba(0,0,0,.6)}
+html.dark .fxo .fxl{color:#EDBB70}html.dark .fxo .fxi{color:#ffffc5}html.dark .fxo .fxi svg{color:#EDBB70}
+html.dark .fxo a.fxi:hover,html.dark .fxo a.fxi:focus-visible{background:rgba(237,187,112,.18);color:#ffffc5}
+html.dark .fxo .fxi.on{background:rgba(237,187,112,.22);color:#F4D59B}
+html.dark .fxo .fxi.off em{background:rgba(237,187,112,.2);color:#F4D59B}
+@media (min-width:901px){
+ #side .m{font-size:16px!important}
+ #side .s,#side .soon{font-size:15px!important}
+ #side .soc{padding-bottom:8px}
+ html #side .soc a{width:28px;height:28px;margin:0 2px}
+ html #side .soc a svg{width:14px;height:14px}
+ html #side .soc .tg2{width:38px;height:22px;margin-left:4px}
+ html #side .soc .tg2 .tgk{width:16px;height:16px;left:3px;top:3px}
+ html #side .soc .tg2 .tgk svg{width:10px;height:10px}
+ html.dark #side .soc .tg2 .tgk{transform:translateX(16px)}
+}
+.fxo{z-index:2147482500}
+.fxo{width:min(22rem,calc(100vw - 290px))}

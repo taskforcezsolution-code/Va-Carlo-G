@@ -184,12 +184,49 @@ function nav(h){
 const sv=h=="services"||h.startsWith("svc-");
 const a=(id,t)=>`<a class="m ${h==id?"on":""}" href="${id=="about"?"about.html":"#"+id}">${ic({dashboard:"dash",about:"user",education:"edu",work:"work",blog:"post",contact:"mail"}[id])}${t}</a>`;
 side.innerHTML='<div class="sin"><div class="sh">'+`${nameHTML()}<div class="soc">${socHTML()}</div>`+'</div><div class="sm">'+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
-`<button class="m" data-t="s" aria-expanded="${sv}">${ic("svc")}Services${CH}</button><div class="sub ${sv?"open":""}" id="s">${SERVICES.map(([k,n])=>`<a class="s ${h=="svc-"+k?"on":""}" href="services/${SLUGS[k]}.html">${n}</a>`).join("")}</div>`+
+`<button class="m ${sv?"on":""}" data-t="s" aria-expanded="${sv}">${ic("svc")}Services${CH}</button><div class="sub ${sv?"open":""}" id="s">${SERVICES.map(([k,n])=>`<a class="s ${h=="svc-"+k?"on":""}" href="services/${SLUGS[k]}.html">${n}</a>`).join("")}</div>`+
 `<button class="m" data-t="b" aria-expanded="${h=="dashboard"}">${ic("biz")}My Business${CH}</button><div class="sub ${h=="dashboard"?"open":""}" id="b"><a class="s" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">TaskForce Z Solution</a><span class="soon" style="display:block">Outsourcing Agency (Coming Soon)</span><span class="soon" style="display:block">Accounting Services (Coming Soon)</span></div>`+
-a("blog","Blog")+a("contact","FAQs/Contact")+'</div></div>'}
+a("blog","Blog")+a("contact","FAQs/Contact")+'</div></div>';buildFly(h)}
 function fitSide(){const sm=$("#side .sm");if(!sm)return;sm.classList.toggle("more",innerWidth>900&&sm.scrollTop+sm.clientHeight<sm.scrollHeight-4)}
 side.addEventListener("scroll",e=>{if(e.target.classList&&e.target.classList.contains("sm"))fitSide()},true);
 addEventListener("resize",fitSide);
+
+/* ===== Hover flyout submenu (desktop): floating panel beside the sidebar, never clipped, no squeezing ===== */
+const FLYQ=matchMedia("(hover:hover)"),FL={el:null,t:0,open:false,cur:null};
+const CHV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
+function flyMode(){const on=innerWidth>900&&FLYQ.matches;document.documentElement.classList.toggle("fly",on);if(!on&&FL.el)closeFly(true);return on}
+function buildFly(h){
+ let el=document.getElementById("fxo");
+ if(!el){el=document.createElement("div");el.id="fxo";el.className="fxo";el.setAttribute("aria-hidden","true");document.body.appendChild(el);
+  el.addEventListener("pointerenter",()=>clearTimeout(FL.t));el.addEventListener("pointerleave",()=>closeFly(false));
+  el.addEventListener("keydown",e=>{const items=[...el.querySelectorAll(".fxp.on a.fxi")],i=items.indexOf(document.activeElement);
+   if(e.key==="Escape"){const b=FL.cur;closeFly(true);b&&b.focus()}
+   else if(e.key==="ArrowDown"){e.preventDefault();(items[i+1]||items[0]).focus()}
+   else if(e.key==="ArrowUp"){e.preventDefault();(items[i-1]||items[items.length-1]).focus()}
+   else if(e.key==="ArrowLeft"){const b=FL.cur;closeFly(true);b&&b.focus()}});
+  el.addEventListener("click",e=>{if(e.target.closest("a.fxi"))closeFly(true)})}
+ FL.el=el;
+ el.innerHTML='<div class="fxc" role="menu"><div class="fxp" data-p="s"><p class="fxl">Services</p>'+SERVICES.map(([k,n])=>`<a class="fxi ${h=="svc-"+k?"on":""}" role="menuitem" tabindex="-1" href="services/${SLUGS[k]}.html">${CHV}<span>${n}</span></a>`).join("")+'</div><div class="fxp" data-p="b"><p class="fxl">My Business</p><a class="fxi" role="menuitem" tabindex="-1" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">'+CHV+'<span>TaskForce Z Solution</span></a><span class="fxi off">'+CHV+'<span>Outsourcing Agency</span><em>Coming soon</em></span><span class="fxi off">'+CHV+'<span>Accounting Services</span><em>Coming soon</em></span></div></div>';
+ flyMode()}
+function openFly(btn){
+ if(!FL.el||!document.documentElement.classList.contains("fly"))return;
+ clearTimeout(FL.t);const el=FL.el,key=btn.dataset.t;
+ el.querySelectorAll(".fxp").forEach(p=>p.classList.toggle("on",p.dataset.p===key));
+ side.querySelectorAll("button[data-t]").forEach(b=>b.classList.toggle("hov",b===btn));
+ const sr=side.getBoundingClientRect(),r=btn.getBoundingClientRect(),x=Math.round(sr.right+8),hgt=el.offsetHeight;
+ const y=Math.max(8,Math.min(Math.round(r.top-8),innerHeight-hgt-12));
+ if(!FL.open){el.classList.add("snap");el.style.setProperty("--x",x+"px");el.style.setProperty("--y",y+"px");void el.offsetWidth;el.classList.remove("snap")}
+ else{el.style.setProperty("--x",x+"px");el.style.setProperty("--y",y+"px")}
+ el.classList.add("open");el.setAttribute("aria-hidden","false");el.querySelectorAll(".fxp.on a.fxi").forEach(a=>a.tabIndex=0);
+ FL.open=true;FL.cur=btn}
+function closeFly(now){clearTimeout(FL.t);const go=()=>{if(!FL.el)return;FL.el.classList.remove("open");FL.el.setAttribute("aria-hidden","true");FL.el.querySelectorAll("a.fxi").forEach(a=>a.tabIndex=-1);side.querySelectorAll("button[data-t]").forEach(b=>b.classList.remove("hov"));FL.open=false;FL.cur=null};if(now)go();else FL.t=setTimeout(go,170)}
+side.addEventListener("pointerover",e=>{if(e.pointerType&&e.pointerType!=="mouse")return;if(!document.documentElement.classList.contains("fly"))return;
+ const b=e.target.closest("button[data-t]");if(b){openFly(b);return}if(e.target.closest("a.m"))closeFly(true)});
+side.addEventListener("pointerleave",()=>closeFly(false));
+side.addEventListener("focusin",e=>{const b=e.target.closest&&e.target.closest("button[data-t]");if(b)openFly(b)});
+side.addEventListener("keydown",e=>{const b=e.target.closest&&e.target.closest("button[data-t]");if(b&&e.key==="ArrowRight"&&document.documentElement.classList.contains("fly")){e.preventDefault();openFly(b);const f=FL.el.querySelector(".fxp.on a.fxi");f&&f.focus()}});
+side.addEventListener("scroll",()=>closeFly(true),true);
+addEventListener("resize",flyMode);FLYQ.addEventListener&&FLYQ.addEventListener("change",flyMode);
 function route(){
 const hh=location.hash.slice(1),pg=document.body.dataset.page||"";
 if(hh&&hh!==pg){const to=hh=="about"?"about.html":(hh.startsWith("svc-")&&SLUGS[hh.slice(4)])?"services/"+SLUGS[hh.slice(4)]+".html":"";if(to){const dest=new URL(to,document.baseURI).pathname;if(location.pathname!==dest){location.replace(dest);return}}}
@@ -201,9 +238,9 @@ const sv=(SERVICES.find(s=>"svc-"+s[0]==h)||[])[1],sub=(sv?sv+" inquiry":(d.get(
 const mail=()=>{location.href=`mailto:${EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`};
 f.querySelector("button").textContent=FORM_ENDPOINT?"Sending...":"Opening your email app...";if(!FORM_ENDPOINT){mail();f.classList.add("sent");return}
 fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({name:d.get("n"),email:d.get("e"),message:d.get("m"),subject:sub})}).then(r=>{if(!r.ok)throw 0;f.innerHTML="<p><b>Message sent.</b> We'll reply to "+d.get("e")+" soon.</p>"}).catch(mail)}}
-side.addEventListener("click",e=>{const t=e.target.closest("[data-t]");
-if(t){const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria-expanded",s.classList.contains("open"));{const o=$("#"+(t.dataset.t=="s"?"b":"s"));if(s.classList.contains("open")&&o){o.classList.remove("open");const ob=side.querySelector('[data-t="'+o.id+'"]');ob&&ob.setAttribute("aria-expanded","false")}}fitSide();setTimeout(fitSide,700)}
-});
+side.addEventListener("click",e=>{const t=e.target.closest("[data-t]");if(!t)return;
+if(document.documentElement.classList.contains("fly")){e.preventDefault();if(t.dataset.t==="s"){closeFly(true);location.href=new URL("#services",document.baseURI).href}else openFly(t);return}
+const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria-expanded",s.classList.contains("open"));fitSide();setTimeout(fitSide,700)});
 $("#menu").onclick=()=>side.classList.toggle("open");
 view.addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){const t=b.closest(".car").querySelector(".trk,.pg"),s=t.classList.contains("pg")?t.clientWidth:t.querySelector(".sl").offsetWidth+14;t.scrollBy({left:b.dataset.d*s,behavior:"smooth"});return}
 const k=e.target.closest(".sk");if(k){const i=k.querySelector("i");i.style.animation="none";i.offsetWidth;i.style.animation="";countUp(k.querySelector("em"))}});
