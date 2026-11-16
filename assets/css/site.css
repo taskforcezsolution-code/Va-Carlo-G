@@ -658,3 +658,22 @@ html.dark .fxo .fxi.off em{background:rgba(237,187,112,.2);color:#F4D59B}
 }
 .fxo{z-index:2147482500}
 .fxo{width:min(22rem,calc(100vw - 290px))}
+
+/* ===== Inquiry form (HubSpot-connected) ===== */
+.inq{display:grid;gap:12px}
+.inq label{display:grid;gap:5px;font-size:13px;font-weight:600;color:var(--ink)}
+.inq .req{color:#A76939}
+.inq .inq-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.inq .inq-row{grid-template-columns:1fr}}
+.inq input,.inq select,.inq textarea{font-weight:400}
+.inq select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink);font:inherit}
+.inq .hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden}
+.inq label.bad input,.inq label.bad select,.inq label.bad textarea{border-color:#A76939;box-shadow:0 0 0 3px rgba(167,105,57,.2)}
+.inq-err{font-size:12px;font-weight:600;color:#8a4a1a}.inq-err:empty{display:none}
+.inq-msg{margin:0;font-size:13.5px;line-height:1.55}.inq-msg:empty{display:none}
+.inq-msg.err{color:#6e3a14;background:rgba(167,105,57,.13);border-left:3px solid #A76939;padding:10px 12px;border-radius:4px}
+.inq-msg a,.inq-ok a{color:#885D36;font-weight:600}
+.inq .btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.inq-ok{padding:18px 20px;border-left:3px solid #885D36;background:rgba(136,93,54,.09);border-radius:8px;display:grid;gap:10px;justify-items:start}
+.inq-ok:focus{outline:none}.inq-ok p{margin:0;color:var(--mute)}
+html.dark .inq-err,html.dark .inq-msg.err{color:#F4D59B}html.dark .inq select{background:rgba(255,255,255,.06)}
