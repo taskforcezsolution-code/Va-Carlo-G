@@ -1,7 +1,7 @@
 // ---- Edit your content here ----
 // Profile photo: put your url link or embed code here (an image link works) to replace the current picture
 const PHOTO="assets/img/image-002.jpg";
-const EMAIL="butch@taskforcezsolution.com";
+const EMAIL="carlo.g@taskforcezsolution.com";
 const RESUME_URL=""; // paste a link to your resume PDF here
 const FORM_ENDPOINT=""; // optional: a form service URL (Formspree, FormSubmit) so messages send without opening email
 // put your url link or embed code here (YouTube/Vimeo link, direct .mp4 link, or a full <iframe> embed code) for the welcome video
