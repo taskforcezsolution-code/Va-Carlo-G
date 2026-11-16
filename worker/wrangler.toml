@@ -1,0 +1,21 @@
+# Example configuration for the existing Worker (adjust names to match your account).
+name = "va-carlo-crm-api"
+main = "index.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://vacarlog.taskforcezsolution.com"
+NOTIFY_TO = "carlo.g@taskforcezsolution.com"
+# Must be an address on a domain you verified with your email provider (Resend):
+EMAIL_FROM = "VA Carlo G <notifications@taskforcezsolution.com>"
+
+# Optional but recommended: stops duplicate submissions across Worker instances.
+# Create with: npx wrangler kv namespace create INQUIRY_KV   then paste the id below.
+# [[kv_namespaces]]
+# binding = "INQUIRY_KV"
+# id = "PASTE_KV_ID"
+
+# Secrets are NOT stored here. Set them with:
+#   npx wrangler secret put HUBSPOT_ACCESS_TOKEN   (already set)
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put TALLY_SIGNING_SECRET   (only if you use the Tally webhook)
