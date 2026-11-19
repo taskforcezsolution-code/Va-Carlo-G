@@ -77,9 +77,9 @@ const post=i=>{const b=BLOGS[+i];if(!b)return V.blog();return `<a href="#blog" s
 const V={blog:()=>`<h1>Blog</h1><div class="tiles">${BLOGS.map(blogBox).join("")}</div>`,
 dashboard:()=>`<div class="hero2"><p class="eb">Your knowledge deserves a bigger stage</p><h1>Turn your expertise<br>into <span class="rslot"><b class="rw">online courses</b><b class="rw">websites</b><b class="rw">sales funnels</b><b class="rw">eBooks</b><b class="rw">AI videos</b><b class="rw">social content</b></span></h1><p class="sub3">Great ideas shouldn't stay stuck in your head. Let's shape what you know into something people can find, trust and happily pay for.</p></div><div class="grid"><div class="col">${vid("Meet VA Carlo G.")}<section class="card"><h2>${ic("skill")}Skills & Expertise</h2>${skills()}</section></div>
 <div class="col"><section class="card"><h2>${ic("user")}About Me</h2><p style="margin:0 0 10px;font-size:14px">${ABOUT[0]}</p><a href="about.html">Read more</a></section><section class="card"><h2>${ic("edu")}Education</h2>${eduList()}</section></div></div><section class="card" style="margin-top:18px">${mq("Platforms",PLATFORMS,"plat")}</section><section class="card" style="margin-top:18px">${mq("AI Tools",AI,"ai")}</section><section class="card" style="margin-top:18px">${slides(false)}</section>`,
-about:()=>`<h1>About VA Carlo G.</h1><div class="abt">${PHOTO?`<img class="pf" src="${PHOTO}" alt="VA Carlo G." width="200" height="200" decoding="async">`:"<div class='pf'></div>"}<div class="col">${vid("Meet VA Carlo G.")}<section class="card">${ABOUT.map(p=>`<p style="margin:0 0 16px">${p}</p>`).join("")}</section></div></div>`,
-education:()=>`<h1>Education</h1><div class="col" style="max-width:720px">${EDU.map(e=>`<section class="card">${eduRow(e)}</section>`).join("")}<section class="card"><h2>Licenses & Certifications</h2><ul style="margin:0;padding-left:18px">${CERTS.map(c=>`<li>${c}</li>`).join("")}</ul></section></div>`,
-work:()=>`<h1>Work Experience</h1><section class="card">${slides(true)}</section>`,
+about:()=>`<h1>About VA Carlo G.</h1>${vid("Meet VA Carlo G.")}${syHint()}${story(ABOUT.map(p=>`<p>${p}</p>`),"About me")}`,
+education:()=>`<h1>Education</h1>${vid("Meet VA Carlo G.")}${syHint()}${story([...EDU.map(e=>`<div class="sy-row">${eduRow(e)}</div>`),`<h2>Licenses &amp; Certifications</h2><ul>${CERTS.map(c=>`<li>${c}</li>`).join("")}</ul>`],"Education and certifications")}`,
+work:()=>`<h1>Work Experience</h1>${vid("Meet VA Carlo G.")}${syHint()}${story(WORK.map(j=>`${logo(j[1])}<h2>${j[0]}</h2><p class="sy-sub">${j[1]} | ${j[2]}</p><ul>${j[3].map(x=>`<li>${x}</li>`).join("")}</ul>${j[4]?`<small class="note">${j[4]}</small>`:""}`),"Work experience")}`,
 platforms:()=>`<h1>Platforms & Tools</h1><section class="card">${dots(PLATFORMS,"d3")}</section>`,
 ai:()=>`<h1>AI Tools</h1><section class="card">${dots(AI,"d3")}</section>`,
 contact:()=>`<h1>FAQs / Contact</h1><section class="card cp2 faqc" id="faq"><p class="eb">FAQs</p><h2>Quick answers about my services</h2><div class="th" role="log" aria-label="Conversation"></div><div class="chips"></div></section><section class="card cp2" style="margin-top:18px"><p class="eb">Send a message</p><h2>Tell me about your project</h2><p class="sub2">Fill in the form and your message goes straight to me.</p>${inquiryForm()}</section><section class="card cp2" style="margin-top:18px"><p class="eb">Book a call</p><h2>Pick a time that works for you</h2><p class="sub2">Choose a date and time below and we'll meet to talk about your project.</p><iframe class="cal" src="${CALENDLY}?hide_gdpr_banner=1" title="Book a call with VA Carlo G." loading="lazy"></iframe><p class="sub2">Calendar not loading? <a href="${CALENDLY}" target="_blank" rel="noopener">Open it in a new tab</a>.</p></section>`,
@@ -183,10 +183,10 @@ return `<a href="#services" style="color:var(--mute);text-decoration:none">&larr
 function nav(h){
 const sv=h=="services"||h.startsWith("svc-");
 const a=(id,t)=>`<a class="m ${h==id?"on":""}" href="${id=="about"?"about.html":"#"+id}">${ic({dashboard:"dash",about:"user",education:"edu",work:"work",blog:"post",contact:"mail"}[id])}${t}</a>`;
-side.innerHTML='<div class="sin"><div class="sh">'+`${nameHTML()}<div class="soc">${socHTML()}</div>`+'</div><div class="sm">'+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
+side.innerHTML='<div class="sin"><div class="sh"><button class="cl" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></button><div class="pav" role="img" aria-label="VA Carlo G. profile photo"></div>'+`${nameHTML()}<div class="soc">${socHTML()}</div>`+'</div><div class="sm">'+a("dashboard","Home")+a("about","About Me")+a("education","Education")+a("work","Work Experience")+
 `<button class="m ${sv?"on":""}" data-t="s" aria-expanded="${sv}">${ic("svc")}Services${CH}</button><div class="sub ${sv?"open":""}" id="s">${SERVICES.map(([k,n])=>`<a class="s ${h=="svc-"+k?"on":""}" href="services/${SLUGS[k]}.html">${n}</a>`).join("")}</div>`+
 `<button class="m" data-t="b" aria-expanded="${h=="dashboard"}">${ic("biz")}My Business${CH}</button><div class="sub ${h=="dashboard"?"open":""}" id="b"><a class="s" href="https://www.taskforcezsolution.com" target="_blank" rel="noopener">TaskForce Z Solution</a><span class="soon" style="display:block">Outsourcing Agency (Coming Soon)</span><span class="soon" style="display:block">Accounting Services (Coming Soon)</span></div>`+
-a("blog","Blog")+a("contact","FAQs/Contact")+'</div></div>';buildFly(h)}
+a("blog","Blog")+a("contact","FAQs/Contact")+'</div></div>';fillPav();buildFly(h)}
 function fitSide(){const sm=$("#side .sm");if(!sm)return;sm.classList.toggle("more",innerWidth>900&&sm.scrollTop+sm.clientHeight<sm.scrollHeight-4)}
 side.addEventListener("scroll",e=>{if(e.target.classList&&e.target.classList.contains("sm"))fitSide()},true);
 addEventListener("resize",fitSide);
@@ -298,17 +298,84 @@ side.addEventListener("focusin",e=>{const b=e.target.closest&&e.target.closest("
 side.addEventListener("keydown",e=>{const b=e.target.closest&&e.target.closest("button[data-t]");if(b&&e.key==="ArrowRight"&&document.documentElement.classList.contains("fly")){e.preventDefault();openFly(b);const f=FL.el.querySelector(".fxp.on a.fxi");f&&f.focus()}});
 side.addEventListener("scroll",()=>closeFly(true),true);
 addEventListener("resize",flyMode);FLYQ.addEventListener&&FLYQ.addEventListener("change",flyMode);
+
+/* ===== Phone menu: off-canvas panel with edge peek ===== */
+const MQM=matchMedia("(max-width:900px)"),menuBtn=$("#menu"),scrim=$("#scrim"),edgeTab=$("#edgeTab");
+function setMenu(open,focus){const m=MQM.matches;if(!m)open=false;side.classList.toggle("open",open);document.documentElement.classList.toggle("menu-open",open);
+ if(menuBtn)menuBtn.setAttribute("aria-expanded",String(open));side.inert=m&&!open;
+ if(open&&focus!==false){const c=side.querySelector(".cl");if(c)c.focus({preventScroll:true})}else if(!open&&focus===true&&menuBtn)menuBtn.focus({preventScroll:true})}
+const closeMenu=f=>setMenu(false,f);
+if(menuBtn)menuBtn.addEventListener("click",()=>setMenu(true));
+if(edgeTab)edgeTab.addEventListener("click",()=>setMenu(true));
+if(scrim)scrim.addEventListener("click",()=>closeMenu(true));
+side.addEventListener("click",e=>{if(e.target.closest(".cl"))closeMenu(true)});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&side.classList.contains("open"))closeMenu(true)});
+if(MQM.addEventListener)MQM.addEventListener("change",()=>setMenu(false,false));
+setMenu(false,false);
+let tsx=0,tsy=0,tmode="";   // swipe in from the left edge to open, swipe left to close
+addEventListener("touchstart",e=>{if(!MQM.matches||e.touches.length!==1)return;const t=e.touches[0];tsx=t.clientX;tsy=t.clientY;tmode=side.classList.contains("open")?"close":(tsx<=22?"open":"")},{passive:true});
+addEventListener("touchmove",e=>{if(!tmode)return;const t=e.touches[0],dx=t.clientX-tsx;if(Math.abs(t.clientY-tsy)>46){tmode="";return}if(tmode==="open"&&dx>56){setMenu(true);tmode=""}else if(tmode==="close"&&dx<-56){closeMenu(true);tmode=""}},{passive:true});
+addEventListener("touchend",()=>{tmode=""},{passive:true});
+function fillPav(){const p=side.querySelector(".pav");if(p&&PHOTO)p.style.background="url("+PHOTO+") center/cover"}
+
+/* ===== Slide push page transitions (old page slides out left, new page pushes in from the right) ===== */
+const RM=matchMedia("(prefers-reduced-motion: reduce)"),SPE="cubic-bezier(.32,.72,0,1)";let spBusy=0;
+function spSnap(){
+ const r=view.getBoundingClientRect(),c=view.cloneNode(true);
+ c.removeAttribute("id");c.removeAttribute("tabindex");c.querySelectorAll("[id]").forEach(n=>n.removeAttribute("id"));
+ c.querySelectorAll("iframe,video,canvas").forEach(n=>{const d=document.createElement("div");d.style.cssText="width:"+n.clientWidth+"px;height:"+n.clientHeight+"px";n.replaceWith(d)});
+ c.setAttribute("aria-hidden","true");c.inert=true;c.classList.add("sp-clone");
+ Object.assign(c.style,{position:"fixed",left:r.left+"px",top:r.top+"px",width:r.width+"px",height:r.height+"px",margin:"0",overflow:"hidden",pointerEvents:"none",zIndex:"3"});
+ document.body.appendChild(c);return c}
+function spRun(c){const h=document.documentElement;h.classList.add("sp-anim");
+ const o=c.animate([{transform:"translateX(0)"},{transform:"translateX(-100%)"}],{duration:520,easing:SPE,fill:"forwards"}),
+       n=view.animate([{transform:"translateX(100%)"},{transform:"translateX(0)"}],{duration:520,easing:SPE});
+ return Promise.all([o.finished,n.finished].map(p=>p.catch(()=>{}))).then(()=>{c.remove();h.classList.remove("sp-anim")})}
 function route(){
+ const first=!route.done;route.done=true;const h=document.documentElement,pending=h.classList.contains("sp-pending");
+ if(first||RM.matches||spBusy||!view.animate){renderRoute();
+  if(pending){h.classList.remove("sp-pending");if(!RM.matches&&view.animate){h.classList.add("sp-anim");view.animate([{transform:"translateX(100%)"},{transform:"translateX(0)"}],{duration:520,easing:SPE}).finished.catch(()=>{}).then(()=>h.classList.remove("sp-anim"))}}
+  return}
+ const c=spSnap();renderRoute();spBusy=1;spRun(c).then(()=>{spBusy=0})}
+document.addEventListener("click",e=>{                       // links that open another page: slide out, then go
+ const a=e.target.closest&&e.target.closest("a[href]");
+ if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target||a.hasAttribute("download")||a.hasAttribute("data-cal"))return;
+ let u;try{u=new URL(a.href,location.href)}catch(x){return}
+ if(u.origin!==location.origin||(u.pathname===location.pathname&&u.search===location.search)||RM.matches||!view.animate)return;
+ e.preventDefault();closeMenu(false);closeFly(true);
+ try{sessionStorage.setItem("sp","1")}catch(x){}
+ const h=document.documentElement;h.classList.add("sp-anim");
+ const go=()=>{view.style.visibility="hidden";location.href=u.href};
+ view.animate([{transform:"translateX(0)"},{transform:"translateX(-100%)"}],{duration:320,easing:SPE,fill:"forwards"}).finished.then(go,go)});
+addEventListener("pageshow",e=>{if(e.persisted){view.style.visibility="";document.documentElement.classList.remove("sp-anim","sp-pending");view.getAnimations().forEach(x=>x.cancel())}});
+
+/* ===== Scroll story (About, Education, Work): a sticky stage that changes as each paragraph scrolls in ===== */
+const pad2=n=>String(n).padStart(2,"0");
+const SY_POS=[[-18,-4,1,0,"50%"],[20,2,.78,45,"28%"],[0,30,1.7,0,"50%"],[-22,16,.9,-20,"40%"],[22,-14,.7,90,"30%"],[0,-8,1.25,0,"50%"]];
+const syHint=()=>'<p class="sy-hint"><span>Scroll to read my story</span><i aria-hidden="true">&#8595;</i></p>';
+function story(items,label){return `<section class="sy" aria-label="${label}"><div class="sy-stage" aria-hidden="true"><i class="sy-orb"></i><span class="sy-count"><b>01</b> / ${pad2(items.length)}</span><span class="sy-bar"><i></i></span></div><div class="sy-steps">${items.map((h,i)=>`<article class="sy-step${i?"":" on"}" data-i="${i}"><div class="sy-card"><span class="sy-n">${pad2(i+1)}</span>${h}</div></article>`).join("")}</div></section>`}
+let syIO=null;
+function initStory(){
+ if(syIO){syIO.disconnect();syIO=null}
+ const s=document.querySelector(".sy");if(!s)return;
+ const stage=s.querySelector(".sy-stage"),steps=[...s.querySelectorAll(".sy-step")],cnt=s.querySelector(".sy-count b"),n=steps.length;
+ const set=i=>{steps.forEach((x,k)=>x.classList.toggle("on",k===i));const p=SY_POS[i%SY_POS.length],st=stage.style;
+  st.setProperty("--ox",p[0]+"cqw");st.setProperty("--oy",p[1]+"cqh");st.setProperty("--os",p[2]);st.setProperty("--or",p[3]+"deg");st.setProperty("--orad",p[4]);st.setProperty("--p",((i+1)/n*100)+"%");cnt.textContent=pad2(i+1)};
+ set(0);
+ if(!("IntersectionObserver" in window))return;
+ syIO=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)set(+en.target.dataset.i)})},{rootMargin:"-45% 0px -45% 0px"});
+ steps.forEach(x=>syIO.observe(x))}
+function renderRoute(){
 const hh=location.hash.slice(1),pg=document.body.dataset.page||"";
 if(hh&&hh!==pg){const to=hh=="about"?"about.html":(hh.startsWith("svc-")&&SLUGS[hh.slice(4)])?"services/"+SLUGS[hh.slice(4)]+".html":"";if(to){const dest=new URL(to,document.baseURI).pathname;if(location.pathname!==dest){location.replace(dest);return}}}
 const h=hh||pg||"dashboard";
 view.innerHTML=h.startsWith("post-")?post(h.slice(5)):h.startsWith("svc-")?svc(h.slice(4)):(V[h]||V.dashboard)();
-nav(h);window.__tg=window.__tg||document.querySelector(".tg2");side.querySelector(".soc").appendChild(window.__tg);side.classList.remove("open");window.scrollTo(0,0);document.querySelectorAll(".sk em").forEach(countUp);initFan();initFaq();initFlow();initRoll();initGallery(h);enhanceSvc(h);fitSide();setTimeout(fitSide,300);if(h=="dashboard")bento();
+nav(h);window.__tg=window.__tg||document.querySelector(".tg2");side.querySelector(".soc").appendChild(window.__tg);closeMenu(false);window.scrollTo({top:0,left:0,behavior:"instant"});document.querySelectorAll(".sk em").forEach(countUp);initFan();initFaq();initFlow();initRoll();initGallery(h);enhanceSvc(h);fitSide();setTimeout(fitSide,300);initStory();if(h=="dashboard")bento();
 bindInquiryForms();}
 side.addEventListener("click",e=>{const t=e.target.closest("[data-t]");if(!t)return;
 if(document.documentElement.classList.contains("fly")){e.preventDefault();if(t.dataset.t==="s"){closeFly(true);location.href=new URL("#services",document.baseURI).href}else openFly(t);return}
 const s=$("#"+t.dataset.t);s.classList.toggle("open");t.setAttribute("aria-expanded",s.classList.contains("open"));fitSide();setTimeout(fitSide,700)});
-$("#menu").onclick=()=>side.classList.toggle("open");
+
 view.addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){const t=b.closest(".car").querySelector(".trk,.pg"),s=t.classList.contains("pg")?t.clientWidth:t.querySelector(".sl").offsetWidth+14;t.scrollBy({left:b.dataset.d*s,behavior:"smooth"});return}
 const k=e.target.closest(".sk");if(k){const i=k.querySelector("i");i.style.animation="none";i.offsetWidth;i.style.animation="";countUp(k.querySelector("em"))}});
 view.addEventListener("click",e=>{const v=e.target.closest("[data-vid]");if(v)v.outerHTML=embed(VIDEO_URL.replace("videoFoam=true","videoFoam=true&autoPlay=true"))});

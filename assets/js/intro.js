@@ -15,7 +15,7 @@ const start=()=>{
  setTimeout(()=>{tag.classList.remove("show");stage.style.transform="none"},7900);
  // 3 seconds later the picture settles into the dashboard avatar (same size, border, shadow and crop)
  setTimeout(()=>{
-  const av=document.querySelector(".avatar"),T=av.getBoundingClientRect(),R=ref.getBoundingClientRect(),c=getComputedStyle(av);
+  const av=document.querySelector(".avatar"),mm=document.getElementById("menu"),tg=(innerWidth<=900&&mm)?mm:av,T=tg.getBoundingClientRect(),R=ref.getBoundingClientRect(),c=getComputedStyle(av);
   const fly=document.createElement("div");fly.className="ia-fly";
   const bw=c.borderTopWidth,bc=c.borderTopColor,bs=c.borderTopStyle==="none"?"solid":c.borderTopStyle;
   fly.style.cssText+=`left:${R.left}px;top:${R.top}px;width:${R.width}px;height:${R.height}px;border:6px solid #eef0f4;background-image:${c.backgroundImage};background-size:${c.backgroundSize};background-position:${c.backgroundPosition};background-repeat:${c.backgroundRepeat};background-color:${c.backgroundColor};border-radius:50%`;
